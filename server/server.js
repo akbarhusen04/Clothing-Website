@@ -16,9 +16,7 @@ const shopReviewRouter = require("./routes/shop/review-routes");
 
 const commonFeatureRouter = require("./routes/common/feature-routes");
 
-//create a database connection -> u can also
-//create a separate file for this and then import/use that file here
-console.log("🔍 Checking Mongo URI:", process.env.MONGO_URI); // <-- Add this line
+console.log("🔍 Checking Mongo URI:", process.env.MONGO_URI);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB is connected successfully!'))
@@ -27,9 +25,13 @@ mongoose.connect(process.env.MONGO_URI)
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// --- CORS CONFIGURATION UPDATED ---
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173", 
+      "https://clothing-website-navy-omega.vercel.app" // Aapka Vercel URL
+    ],
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
@@ -41,9 +43,11 @@ app.use(
     credentials: true,
   })
 );
+// ----------------------------------
 
 app.use(cookieParser());
 app.use(express.json());
+
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/admin/orders", adminOrderRouter);
