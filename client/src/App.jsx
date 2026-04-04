@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import AuthLayout from "./components/auth/layout";
 import AuthLogin from "./pages/auth/login";
 import AuthRegister from "./pages/auth/register";
@@ -33,22 +33,25 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  if (isLoading) return <Skeleton className="w-[800] bg-black h-[600px]" />;
-
-  console.log(isLoading, user);
+  if (isLoading) return <Skeleton className="w-full bg-slate-200 h-[100vh]" />;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
+        {/* Root path logic: Redirect based on role */}
         <Route
           path="/"
           element={
             <CheckAuth
               isAuthenticated={isAuthenticated}
               user={user}
-            ></CheckAuth>
+            >
+              {/* Default landing after login check */}
+              <Navigate to={user?.role === 'admin' ? "/admin/dashboard" : "/shop/home"} />
+            </CheckAuth>
           }
         />
+
         <Route
           path="/auth"
           element={
@@ -60,6 +63,7 @@ function App() {
           <Route path="login" element={<AuthLogin />} />
           <Route path="register" element={<AuthRegister />} />
         </Route>
+
         <Route
           path="/admin"
           element={
@@ -73,6 +77,7 @@ function App() {
           <Route path="orders" element={<AdminOrders />} />
           <Route path="features" element={<AdminFeatures />} />
         </Route>
+
         <Route
           path="/shop"
           element={
@@ -89,6 +94,7 @@ function App() {
           <Route path="payment-success" element={<PaymentSuccessPage />} />
           <Route path="search" element={<SearchProducts />} />
         </Route>
+
         <Route path="/unauth-page" element={<UnauthPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
