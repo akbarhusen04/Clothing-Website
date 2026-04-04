@@ -11,7 +11,7 @@ export const getFeatureImages = createAsyncThunk(
   "/feature/getFeatureImages", // ✅ Yahan naam theek kar diya hai
   async () => {
     const response = await axios.get(
-      `http://localhost:5000/api/common/feature/get`
+      `https://clothing-website-nquw.onrender.com/api/common/feature/get`
     );
 
     return response.data;
@@ -23,7 +23,7 @@ export const addFeatureImage = createAsyncThunk(
   "/feature/addFeatureImage", // ✅ Yahan naam theek kar diya hai
   async (image) => {
     const response = await axios.post(
-      `http://localhost:5000/api/common/feature/add`,
+      `https://clothing-website-nquw.onrender.com/api/common/feature/add`,
       { image } // ✅ Sahi fix: curly braces zaroori hain!
     );
 
