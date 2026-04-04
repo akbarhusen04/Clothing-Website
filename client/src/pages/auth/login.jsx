@@ -26,7 +26,13 @@ function AuthLogin() {
           title: data?.payload?.message,
         });
 
-        navigate("/dashboard"); // ✅ redirect added
+        if (result?.payload?.success) {
+  if (result.payload.user.role === "admin") {
+    navigate("/admin/dashboard"); // Poora path dena zaruri hai
+  } else {
+    navigate("/shop/home");
+  }
+}
       } else {
         toast({
           title: data?.payload?.message,
